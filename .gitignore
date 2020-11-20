@@ -2,5 +2,7 @@
 *.iml
 out
 gen
-/logs/apache2/*
-/logs/mariadb/*
+logs/apache2/*
+logs/mariadb/*
+data/
+logs/
