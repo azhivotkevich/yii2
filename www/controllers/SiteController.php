@@ -2,15 +2,15 @@
 
 namespace app\controllers;
 
+use app\components\web\GuestController;
+use app\models\forms\LoginForm;
+use app\models\forms\SignUpClientForm;
+use app\models\forms\SignUpDoctorForm;
 use Yii;
-use yii\filters\AccessControl;
-use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\ContactForm;
 
-class SiteController extends Controller
+class SiteController extends GuestController
 {
     /**
      * {@inheritdoc}
@@ -18,19 +18,8 @@ class SiteController extends Controller
     public function behaviors()
     {
         return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['logout'],
-                'rules' => [
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'logout' => ['post'],
                 ],
@@ -55,34 +44,20 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays homepage.
-     *
-     * @return string
-     */
-    public function actionIndex()
-    {
-        return $this->render('index');
-    }
-
-    /**
      * Login action.
      *
      * @return Response|string
      */
     public function actionLogin()
     {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
-
         $model = new LoginForm();
+
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            return $this->redirect('/');
         }
 
-        $model->password = '';
         return $this->render('login', [
-            'model' => $model,
+            'model' => $model
         ]);
     }
 
@@ -98,31 +73,34 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
-    /**
-     * Displays contact page.
-     *
-     * @return Response|string
-     */
-    public function actionContact()
+    public function actionSignUpDoctor()
     {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
+        $model = new SignUpDoctorForm();
 
-            return $this->refresh();
+        if ($model->load(Yii::$app->request->post()) && $model->register()) {
+            return $this->redirect('/site/login');
         }
-        return $this->render('contact', [
-            'model' => $model,
+
+        return $this->render('sign-up-doctor', [
+            'model' => $model
         ]);
     }
 
-    /**
-     * Displays about page.
-     *
-     * @return string
-     */
-    public function actionAbout()
+    public function actionSignUpClient()
     {
-        return $this->render('about');
+        $model = new SignUpClientForm();
+
+        if ($model->load(Yii::$app->request->post()) && $model->register()) {
+            return $this->redirect('/site/login');
+        }
+
+        return $this->render('sign-up-client', [
+            'model' => $model
+        ]);
+    }
+
+    public function actionSignUp()
+    {
+        return $this->render('sign-up');
     }
 }

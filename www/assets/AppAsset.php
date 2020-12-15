@@ -7,6 +7,9 @@
 
 namespace app\assets;
 
+use kartik\icons\ElusiveAsset;
+use kartik\icons\FontAwesomeAsset;
+use yii\bootstrap4\BootstrapAsset;
 use yii\web\AssetBundle;
 
 /**
@@ -25,7 +28,9 @@ class AppAsset extends AssetBundle
     public $js = [
     ];
     public $depends = [
-        'yii\web\YiiAsset',
-        'yii\bootstrap\BootstrapAsset',
+        \yii\web\YiiAsset::class,
+        GlyphIconsAsset::class,
+        FontAwesomeAsset::class,
+        BootstrapAsset::class
     ];
 }
