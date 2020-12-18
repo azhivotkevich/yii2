@@ -1,5 +1,9 @@
 <?php
 
+use app\models\City;
+use app\models\Country;
+use app\models\Region;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -24,10 +28,45 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
             'id',
-            'city_id',
+            [
+                'attribute' => 'countryId',
+                'value' => 'country.name',
+                'filter' => Html::activeDropDownList(
+                    $searchModel,
+                    'countryId',
+                    ArrayHelper::map(Country::find()->all(), 'id', 'name'),
+                    ['class' => 'form-control', 'prompt' => '--']
+                )
+            ],
+            [
+                'attribute' => 'regionId',
+                'value' => 'region.name',
+                'filter' => Html::activeDropDownList(
+                    $searchModel,
+                    'regionId',
+                    ArrayHelper::map(Region::find()->filterWhere(['country_id' => $searchModel->countryId])->all(), 'id', 'name'),
+                    ['class' => 'form-control', 'prompt' => '--']
+                )
+
+            ],
+            [
+                'attribute' => 'city_id',
+                'value' => 'city.name',
+                'filter' => Html::activeDropDownList(
+                    $searchModel,
+                    'city_id',
+                    ArrayHelper::map(
+                        City::find()->joinWith('region')->filterWhere(
+                            [
+                                'region_id' => $searchModel->regionId,
+                                'country_id' => $searchModel->countryId
+                            ]
+                        )->all(),
+                        'id', 'name'),
+                    ['class' => 'form-control', 'prompt' => '--']
+                )
+            ],
             'name',
 
             ['class' => 'yii\grid\ActionColumn'],

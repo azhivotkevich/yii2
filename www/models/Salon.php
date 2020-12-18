@@ -16,6 +16,7 @@ use Yii;
  */
 class Salon extends \yii\db\ActiveRecord
 {
+
     /**
      * {@inheritdoc}
      */
@@ -47,6 +48,7 @@ class Salon extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'city_id' => Yii::t('app', 'City ID'),
             'name' => Yii::t('app', 'Name'),
+            'region_id' => Yii::t('app', 'Region ID'),
         ];
     }
 
@@ -68,5 +70,15 @@ class Salon extends \yii\db\ActiveRecord
     public function getCity()
     {
         return $this->hasOne(City::class, ['id' => 'city_id']);
+    }
+
+    public function getRegion()
+    {
+        return $this->hasOne(\app\models\Region::class, ['id' => 'region_id'])->via('city');
+    }
+
+    public function getCountry()
+    {
+        return $this->hasOne(\app\models\Country::class, ['id' => 'country_id'])->via('region');
     }
 }

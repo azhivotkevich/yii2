@@ -69,4 +69,9 @@ class City extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Salon::class, ['city_id' => 'id']);
     }
+
+    public function getCountry()
+    {
+        return $this->hasOne(Country::class, ['id' => 'country_id'])->via('region');
+    }
 }

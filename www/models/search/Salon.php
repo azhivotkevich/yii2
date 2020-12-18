@@ -11,13 +11,16 @@ use app\models\Salon as SalonModel;
  */
 class Salon extends SalonModel
 {
+    public ?string $countryId = null;
+    public ?string $regionId = null;
+
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['id', 'city_id'], 'integer'],
+            [['id', 'city_id', 'countryId', 'regionId'], 'integer'],
             [['name'], 'safe'],
         ];
     }
@@ -40,7 +43,7 @@ class Salon extends SalonModel
      */
     public function search($params)
     {
-        $query = SalonModel::find();
+        $query = SalonModel::find()->joinWith(['country', 'region']);
 
         // add conditions that should always apply here
 
@@ -56,10 +59,22 @@ class Salon extends SalonModel
             return $dataProvider;
         }
 
+        $dataProvider->sort->attributes['regionId'] = [
+            'asc' => ['regions.name' => SORT_ASC],
+            'desc' => ['regions.name' => SORT_DESC],
+        ];
+
+        $dataProvider->sort->attributes['countryId'] = [
+            'asc' => ['countries.name' => SORT_ASC],
+            'desc' => ['countries.name' => SORT_DESC],
+        ];
+
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
             'city_id' => $this->city_id,
+            'regions.country_id' => $this->countryId,
+            'regions.id' => $this->regionId,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name]);

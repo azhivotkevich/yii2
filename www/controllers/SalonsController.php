@@ -2,17 +2,21 @@
 
 namespace app\controllers;
 
+use app\models\City;
+use app\models\forms\CountryCheckForm;
+use app\models\forms\RegionCheckForm;
 use Yii;
 use app\models\Salon;
 use app\models\search\Salon as SalonSearch;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * SalonController implements the CRUD actions for Salon model.
+ * SalonsController implements the CRUD actions for Salon model.
  */
-class SalonController extends Controller
+class SalonsController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -21,7 +25,7 @@ class SalonController extends Controller
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],
@@ -66,12 +70,35 @@ class SalonController extends Controller
     {
         $model = new Salon();
 
+        $countryModel = new CountryCheckForm();
+        $regionModel = new RegionCheckForm();
+        $regions = [];
+        $cities = [];
+
+        if ($countryModel->load(Yii::$app->request->post()) && $countryModel->validate()) {
+            $regions = ArrayHelper::map(\app\models\Region::findAll(
+                ['country_id' => $countryModel->countryId]
+            ), 'id', 'name');
+        }
+
+
+        if ($regionModel->load(Yii::$app->request->post()) && $regionModel->validate()) {
+            $cities = ArrayHelper::map(City::findAll(
+                ['region_id' => $regionModel->regionId]
+            ), 'id', 'name');
+        }
+        
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
             'model' => $model,
+            'regions' => $regions,
+            'countryModel' => $countryModel,
+            'cities' => $cities,
+            'regionModel' => $regionModel
         ]);
     }
 

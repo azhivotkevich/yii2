@@ -11,13 +11,15 @@ use app\models\City as CityModel;
  */
 class City extends CityModel
 {
+    public ?string $countryId = null;
+
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['id', 'region_id'], 'integer'],
+            [['id', 'region_id', 'countryId'], 'integer'],
             [['name'], 'safe'],
         ];
     }
@@ -40,7 +42,7 @@ class City extends CityModel
      */
     public function search($params)
     {
-        $query = CityModel::find();
+        $query = CityModel::find()->joinWith(['country', 'region']);
 
         // add conditions that should always apply here
 
@@ -56,10 +58,16 @@ class City extends CityModel
             return $dataProvider;
         }
 
+        $dataProvider->sort->attributes['countryId'] = [
+            'asc' => ['countries.name' => SORT_ASC],
+            'desc' => ['countries.name' => SORT_DESC],
+        ];
+
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
             'region_id' => $this->region_id,
+            'regions.country_id' => $this->countryId,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name]);
