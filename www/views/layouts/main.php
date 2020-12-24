@@ -1,15 +1,18 @@
 <?php
 
 /* @var $this \yii\web\View */
+
 /* @var $content string */
 
 use app\widgets\Alert;
 use app\widgets\Language;
-use yii\bootstrap4\Dropdown;use yii\helpers\Html;
+use yii\bootstrap4\Dropdown;
+use yii\helpers\Html;
 use yii\bootstrap4\Nav;
 use yii\bootstrap4\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use mdm\admin\components\MenuHelper;
 
 AppAsset::register($this);
 ?>
@@ -42,12 +45,12 @@ AppAsset::register($this);
             ['label' => 'Home', 'url' => ['/site/index']],
             Language::widget(),
             Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
+            ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
                 . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->name . ')',
+                    'Logout (' . Yii::$app->user->identity->username . ')',
                     ['class' => 'btn btn-link logout']
                 )
                 . Html::endForm()
@@ -59,6 +62,11 @@ AppAsset::register($this);
     ?>
 
     <div class="container-fluid">
+        <?/*= Nav::widget([
+            'items' => MenuHelper::getAssignedMenu(Yii::$app->user->id),
+            'options' => ['class' => 'col-md-2 d-none d-md-block bg-light sidebar']
+        ]); */?>
+
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>

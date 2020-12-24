@@ -12,7 +12,7 @@ use yii\web\IdentityInterface;
  * This is the model class for table "users".
  *
  * @property int $id
- * @property string $name
+ * @property string $username
  * @property string $password
  * @property string $birthday
  * @property string|null $created_at
@@ -39,11 +39,11 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['name', 'password', 'birthday'], 'required'],
+            [['username', 'password', 'birthday'], 'required'],
             [['birthday', 'created_at'], 'safe'],
             [['modified_by'], 'integer'],
             [['gender', 'status'], 'string'],
-            [['name', 'password'], 'string', 'max' => 255],
+            [['username', 'password'], 'string', 'max' => 255],
         ];
     }
 
@@ -54,7 +54,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'name' => 'Name',
+            'username' => 'Name',
             'password' => 'Password',
             'birthday' => 'Birthday',
             'created_at' => 'Created At',
@@ -87,7 +87,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     public static function findEntityByName(string $username): ?User
     {
-        return self::findOne(['name' => $username]);
+        return self::findOne(['username' => $username]);
     }
 
     public static function findIdentity($id)

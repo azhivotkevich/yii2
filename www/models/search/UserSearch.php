@@ -65,7 +65,7 @@ class UserSearch extends User
                 'gender' => $this->gender,
                 'status' => $this->status,
             ])
-            ->andFilterWhere(['like', 'name', $this->name]);
+            ->andFilterWhere(['like', 'name', $this->username]);
 
         return $dataProvider;
     }

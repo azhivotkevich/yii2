@@ -56,7 +56,7 @@ abstract class AbstractSignUpForm extends Model
         }
 
         $user = new User();
-        $user->name = $this->username;
+        $user->username = $this->username;
         $user->birthday = $this->birthday;
         $user->password = \Yii::$app->getSecurity()->generatePasswordHash($this->password);
 

@@ -9,5 +9,8 @@ return [
     'languages' => [
         'ru-RU' => 'Русский',
         'en-US' => 'English',
+    ],
+    'mdm.admin.configs' => [
+        'userTable' => '{{%users}}',
     ]
 ];
