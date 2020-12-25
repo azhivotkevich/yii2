@@ -25,7 +25,8 @@
     "philippfrenzel/yii2fullcalendar": "*",
     "ext-pdo": "*",
     "mdmsoft/yii2-admin": "^2.0@dev",
-    "yiisoft/yii2-swiftmailer": "^2.1@dev"
+    "yiisoft/yii2-swiftmailer": "^2.1@dev",
+    "hoaaah/yii2-startbootstrap-sb-admin-2-asset": "dev-master"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.1.0",

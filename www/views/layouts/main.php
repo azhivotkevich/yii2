@@ -1,89 +1,72 @@
 <?php
-
-/* @var $this \yii\web\View */
-
-/* @var $content string */
-
-use app\widgets\Alert;
-use app\widgets\Language;
-use yii\bootstrap4\Dropdown;
 use yii\helpers\Html;
-use yii\bootstrap4\Nav;
-use yii\bootstrap4\NavBar;
-use yii\widgets\Breadcrumbs;
-use app\assets\AppAsset;
-use mdm\admin\components\MenuHelper;
 
-AppAsset::register($this);
+/* (C) Copyright 2019 Heru Arief Wijaya (http://belajararief.com/) untuk Indonesia.*/
+
+\app\assets\AppAsset::register($this);
+\hoaaah\sbadmin2\assets\SbAdmin2Asset::register($this);
+
+$directoryAsset = Yii::$app->assetManager->getPublishedUrl('@bower/startbootstrap-sb-admin-2');
 ?>
 <?php $this->beginPage() ?>
-<!DOCTYPE html>
-<html lang="<?= Yii::$app->language ?>">
-<head>
-    <meta charset="<?= Yii::$app->charset ?>">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <?php $this->registerCsrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
-    <?php $this->head() ?>
-</head>
-<body>
-<?php $this->beginBody() ?>
-
-<div class="wrap">
+    <!DOCTYPE html>
+    <html lang="<?= Yii::$app->language ?>">
+    <head>
+        <meta charset="<?= Yii::$app->charset ?>"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <?= Html::csrfMetaTags() ?>
+        <title><?= Html::encode($this->title) ?></title>
+        <?php $this->head() ?>
+    </head>
     <?php
-    NavBar::begin([
-        'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar navbar-dark bg-primary',
-        ],
-    ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            Language::widget(),
-            Yii::$app->user->isGuest ? (
-            ['label' => 'Login', 'url' => ['/site/login']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post')
-                . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
-                    ['class' => 'btn btn-link logout']
-                )
-                . Html::endForm()
-                . '</li>'
-            )
-        ],
-    ]);
-    NavBar::end();
+    /**/
     ?>
+    <body id="page-top">
 
-    <div class="container-fluid">
-        <?/*= Nav::widget([
-            'items' => MenuHelper::getAssignedMenu(Yii::$app->user->id),
-            'options' => ['class' => 'col-md-2 d-none d-md-block bg-light sidebar']
-        ]); */?>
+    <?php $this->beginBody() ?>
 
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
-        <?= $content ?>
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <?= $this->render(
+            'sidebar.php',
+            ['directoryAsset' => $directoryAsset]
+        ) ?>
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <?= $this->render(
+                    'header.php',
+                    ['directoryAsset' => $directoryAsset]
+                ) ?>
+
+                <?= $this->render(
+                    'content.php',
+                    ['content' => $content, 'directoryAsset' => $directoryAsset]
+                ) ?>
+
+            </div>
+            <!-- End of Main Content -->
+
+
+            <?= $this->render(
+                'footer.php',
+                ['content' => $content, 'directoryAsset' => $directoryAsset]
+            ) ?>
+
+        </div>
+        <!-- End of Content Wrapper -->
+
     </div>
-</div>
+    <!-- End of Page Wrapper -->
 
-<footer class="footer">
-    <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
 
-        <p class="pull-right"><?= Yii::powered() ?></p>
-    </div>
-</footer>
-
-<?php $this->endBody() ?>
-</body>
-</html>
+    <?php $this->endBody() ?>
+    </body>
+    </html>
 <?php $this->endPage() ?>
