@@ -24,6 +24,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $form->field($model, 'birthday')->widget(\kartik\date\DatePicker::class) ?>
 
+    <?= $form->field($model, 'first_name')->textInput(['autofocus' => true]) ?>
+    <?= $form->field($model, 'second_name')->textInput(['autofocus' => true]) ?>
+    <?= $form->field($model, 'last_name')->textInput(['autofocus' => true]) ?>
+    <?= $form->field($model, 'gender')->dropdownList(['male' => 'male', 'female' => 'female']) ?>
+
     <?= $form->field($model, 'password')->passwordInput() ?>
 
     <?= $form->field($model, 'passwordRepeat')->passwordInput() ?>

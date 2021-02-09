@@ -15,6 +15,7 @@ abstract class AbstractSignUpForm extends Model
     public $last_name;
     public $birthday;
     public $password;
+    public $gender;
     public $passwordRepeat;
 
     /**
@@ -33,7 +34,8 @@ abstract class AbstractSignUpForm extends Model
                 'birthday',
                 'first_name',
                 'second_name',
-                'last_name'
+                'last_name',
+                'gender'
             ],
                 'required'],
 
@@ -42,7 +44,7 @@ abstract class AbstractSignUpForm extends Model
             [['second_name'], 'string', 'min' => 3, 'max' => 30],
             [['last_name'], 'string', 'min' => 3, 'max' => 30],
 
-            [['username'], 'unique', 'targetClass' => User::class, 'targetAttribute' => 'name'],
+            [['username'], 'unique', 'targetClass' => User::class, 'targetAttribute' => 'username'],
             [['password', 'passwordRepeat'], 'string', 'min' => 6, 'max' => 20],
             [['birthday'], 'birthdayValidator'],
             [['passwordRepeat'], 'compare', 'compareAttribute' => 'password'],
@@ -58,6 +60,10 @@ abstract class AbstractSignUpForm extends Model
         $user = new User();
         $user->username = $this->username;
         $user->birthday = $this->birthday;
+        $user->first_name = $this->first_name;
+        $user->second_name = $this->second_name;
+        $user->last_name = $this->last_name;
+        $user->gender = $this->gender;
         $user->password = \Yii::$app->getSecurity()->generatePasswordHash($this->password);
 
         return $user->save();

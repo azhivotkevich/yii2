@@ -5,7 +5,7 @@ namespace app\controllers;
 use app\components\web\SecureController;
 use Yii;
 use app\models\Contact;
-use app\models\ContactSearch;
+use app\models\search\ContactSearch;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

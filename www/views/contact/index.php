@@ -4,34 +4,38 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\ContactSearch */
+/* @var $searchModel app\models\search\ContactSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Contacts';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="contact-index">
+<div class="contact-index card shadow mb-4">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary"><?= Html::encode($this->title) ?></h6>
+    </div>
 
-    <p>
-        <?= Html::a('Create Contact', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    <div class="card-body">
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+        <p>
+            <?= Html::a('Create Contact', ['create'], ['class' => 'btn btn-success']) ?>
+        </p>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-            ['attribute' => 'type_id', 'value' => 'type.name'],
-            ['attribute' => 'user_id', 'value' => 'user.name'],
-            'value',
+        <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+        <?= GridView::widget([
+            'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
+            'columns' => [
+                ['class' => 'yii\grid\SerialColumn'],
+                ['attribute' => 'type_id', 'value' => 'type.name'],
+                ['attribute' => 'user_id', 'value' => 'user.name'],
+                'value',
 
+                ['class' => 'yii\grid\ActionColumn'],
+            ],
+        ]); ?>
 
+    </div>
 </div>

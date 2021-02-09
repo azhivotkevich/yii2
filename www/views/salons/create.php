@@ -9,16 +9,20 @@ $this->title = Yii::t('app', 'Create Salon');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Salons'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="salon-create">
+<div class="salon-create card shadow mb-4">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary"><?= Html::encode($this->title) ?></h6>
+    </div>
 
-    <?= $this->render('_form', [
-        'model' => $model,
-        'regions' => $regions,
-        'countryModel' => $countryModel,
-        'cities' => $cities,
-        'regionModel' => $regionModel
-    ]) ?>
+    <div class="card-body">
+        <?= $this->render('_form', [
+            'model' => $model,
+            'regions' => $regions,
+            'countryModel' => $countryModel,
+            'cities' => $cities,
+            'regionModel' => $regionModel
+        ]) ?>
+    </div>
 
 </div>

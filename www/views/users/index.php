@@ -13,58 +13,62 @@ use yii\grid\GridView;
 $this->title = 'Users';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="users-index">
+<div class="users-index card shadow mb-4">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary"><?= Html::encode($this->title) ?></h6>
+    </div>
 
-    <p>
-        <?= Html::a('Create Users', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    <div class="card-body">
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+        <p>
+            <?= Html::a('Create Users', ['create'], ['class' => 'btn btn-success']) ?>
+        </p>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            'id',
-            'username',
-            'first_name',
-            'second_name',
-            'last_name',
-            [
-                'attribute' => 'birthday',
-                'format' => 'date',
-                'filter' => \kartik\date\DatePicker::widget([
-                    'model' => $searchModel,
-                    'attribute' => 'birthday'
-                ])
-            ],
-            'modified_by',
+        <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+
+        <?= GridView::widget([
+            'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
+            'columns' => [
+                'id',
+                'username',
+                'first_name',
+                'second_name',
+                'last_name',
+                [
+                    'attribute' => 'birthday',
+                    'format' => 'date',
+                    'filter' => \kartik\date\DatePicker::widget([
+                        'model' => $searchModel,
+                        'attribute' => 'birthday'
+                    ])
+                ],
+                'modified_by',
 //            'gender',
-            [
-                'attribute' => 'gender',
-                'value' => function (User $model) {
-                    return $model->gender;
-                }
-            ],
-            'created_at:date',
-            [
-                'attribute' => 'status',
-                'label' => 'Status',
-                'filter' => Html::activeDropDownList(
+                [
+                    'attribute' => 'gender',
+                    'value' => function (User $model) {
+                        return $model->gender;
+                    }
+                ],
+                'created_at:date',
+                [
+                    'attribute' => 'status',
+                    'label' => 'Status',
+                    'filter' => Html::activeDropDownList(
                         $searchModel,
-                    'status',
-                    ArrayHelper::map(User::find()->all(), 'status', 'status'),
-                    ['prompt' => '--', 'class' => 'form-control']
-                )
+                        'status',
+                        ArrayHelper::map(User::find()->all(), 'status', 'status'),
+                        ['prompt' => '--', 'class' => 'form-control']
+                    )
 
 //                    ArrayHelper::map(User::find()->all(), 'status', 'status')
+                ],
+
+                ['class' => yii\grid\ActionColumn::class],
             ],
-
-            ['class' => yii\grid\ActionColumn::class],
-        ],
-    ]); ?>
-
+        ]); ?>
+    </div>
 
 </div>

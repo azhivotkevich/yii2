@@ -1,7 +1,10 @@
 <?php
 
-use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use app\models\forms\CountryCheckForm;
+use app\models\forms\RegionCheckForm;
+use app\models\forms\SalonCreateForm;
+use app\widgets\StepByStepForm;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Salon */
@@ -10,39 +13,16 @@ use yii\widgets\ActiveForm;
 
 <div class="salon-form">
 
-    <?php $form = ActiveForm::begin(); ?>
-    <?= $form->field($countryModel, 'countryId')->dropDownList(
-        \yii\helpers\ArrayHelper::map(\app\models\Country::find()->all(), 'id', 'name'),
-        ['prompt' => '--', 'onchange' => 'this.form.submit()']
-    ) ?>
-
-    <? if ($regions) : ?>
-        <?= $form->field($regionModel, 'regionId')->dropDownList(
-            $regions,
-            ['prompt' => '--', 'onchange' => 'this.form.submit()']
-        ) ?>
-
-        <? if ($cities) : ?>
-            <?= $form->field($model, 'city_id')->dropDownList(
-                $cities,
-                ['prompt' => '--']
-            ) ?>
-
-            <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-
-            <div class="form-group">
-                <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
-            </div>
-        <? else: ?>
-            <?= Html::a(Yii::t('app', 'Create City'), ['cities/create'], ['class' => 'btn btn-success']) ?>
-        <? endif; ?>
-
-    <? else: ?>
-        <?= Html::a(Yii::t('app', 'Create Region'), ['regions/create'], ['class' => 'btn btn-success']) ?>
-    <? endif; ?>
-
-
-    <?php
-    ActiveForm::end(); ?>
+    <?= StepByStepForm::widget([
+        'steps' => [
+            new CountryCheckForm(),
+            new RegionCheckForm(),
+            new SalonCreateForm()
+        ],
+        'redirect' => function(SalonCreateForm $model) {
+            return Url::to(['salons/view', 'id' => $model->id]);
+        }
+    ]);
+    ?>
 
 </div>

@@ -10,6 +10,10 @@ return [
         'ru-RU' => 'Русский',
         'en-US' => 'English',
     ],
+    'languageShortcuts' => [
+        'ru-RU' => 'ru',
+        'en-US' => 'en',
+    ],
     'mdm.admin.configs' => [
         'userTable' => '{{%users}}',
     ]

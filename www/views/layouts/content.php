@@ -2,7 +2,6 @@
 use yii\bootstrap4\Breadcrumbs;
 use yii\bootstrap4\Alert;
 
-/* (C) Copyright 2019 Heru Arief Wijaya (http://belajararief.com/) untuk Indonesia.*/
 ?>
 
 <!-- Begin Page Content -->

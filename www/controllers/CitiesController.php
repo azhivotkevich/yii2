@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\forms\CityCreateForm;
 use app\models\forms\CountryCheckForm;
 use app\models\forms\CreateCityForm;
 use Yii;
@@ -67,24 +68,7 @@ class CitiesController extends Controller
      */
     public function actionCreate()
     {
-        $model = new City();
-        $countryModel = new CountryCheckForm();
-        $regions = [];
-
-        if ($countryModel->load(Yii::$app->request->post()) && $countryModel->validate()) {
-            $regions = \yii\helpers\ArrayHelper::map(\app\models\Region::findAll(
-                ['country_id' => $countryModel->countryId]
-            ), 'id', 'name');
-        }
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-
-        return $this->render('create', [
-            'model' => $model, 'regions' => $regions, 'countryModel' => $countryModel
-        ]);
+        return $this->render('create');
     }
 
     /**

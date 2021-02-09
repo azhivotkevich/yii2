@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\db\ActiveQuery;
 
 /**
  * This is the model class for table "cabinets".
@@ -12,6 +13,9 @@ use Yii;
  * @property string $name
  *
  * @property Salon $salon
+ * @property City $city
+ * @property Region $region
+ * @property Country $country
  */
 class Cabinet extends \yii\db\ActiveRecord
 {
@@ -52,10 +56,25 @@ class Cabinet extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Salon]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getSalon()
     {
         return $this->hasOne(Salon::class, ['id' => 'salon_id']);
+    }
+
+    public function getCity()
+    {
+        return $this->hasOne(City::class, ['id' => 'city_id'])->via('salon');
+    }
+
+    public function getRegion()
+    {
+        return $this->hasOne(Region::class, ['id' => 'region_id'])->via('city');
+    }
+
+    public function getCountry()
+    {
+        return $this->hasOne(Country::class, ['id' => 'country_id'])->via('region');
     }
 }

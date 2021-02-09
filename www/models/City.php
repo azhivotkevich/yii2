@@ -12,6 +12,7 @@ use Yii;
  * @property string $name
  *
  * @property Region $region
+ * @property Country $country
  * @property Salon[] $salons
  */
 class City extends \yii\db\ActiveRecord

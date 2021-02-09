@@ -10,29 +10,33 @@ use yii\grid\GridView;
 $this->title = 'Contact Types';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="contact-type-index">
+<div class="contact-type-index card shadow mb-4">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary"><?= Html::encode($this->title) ?></h6>
+    </div>
 
-    <p>
-        <?= Html::a('Create Contact Type', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    <div class="card-body">
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+        <p>
+            <?= Html::a('Create Contact Type', ['create'], ['class' => 'btn btn-success']) ?>
+        </p>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+        <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-            'id',
-            'name',
-            'created_at',
+        <?= GridView::widget([
+            'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
+            'columns' => [
+                ['class' => 'yii\grid\SerialColumn'],
 
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+                'id',
+                'name',
+                'created_at',
 
+                ['class' => 'yii\grid\ActionColumn'],
+            ],
+        ]); ?>
 
+    </div>
 </div>

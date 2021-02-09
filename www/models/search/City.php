@@ -70,7 +70,7 @@ class City extends CityModel
             'regions.country_id' => $this->countryId,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', 'cities.name', $this->name]);
 
         return $dataProvider;
     }

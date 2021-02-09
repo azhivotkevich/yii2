@@ -3,10 +3,6 @@ use hoaaah\sbadmin2\widgets\Menu;
 use mdm\admin\components\MenuHelper;
 use yii\bootstrap4\Nav;
 
-
-echo Nav::widget([
-    'items' => MenuHelper::getAssignedMenu(Yii::$app->user->id)
-]);
 echo Menu::widget([
     'options' => [
         'ulClass' => "navbar-nav bg-gradient-primary sidebar sidebar-dark accordion",
@@ -21,7 +17,8 @@ echo Menu::widget([
             <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>        
 HTML
     ],
-    'items' => [
+    'items' => MenuHelper::getAssignedMenu(Yii::$app->user->id)
+    /*'items' => [
         [
             'label' => 'Menu 1',
             'url' => ['/menu1'], //  Array format of Url to, will be not used if have an items
@@ -37,18 +34,34 @@ HTML
 
         ],
         [
-            'label' => 'Menu 2',
+            'label' => 'Rbac admin',
             // 'icon' => 'fa fa-menu', // optional, default to "fa fa-circle-o
             'visible' => true, // optional, default to true
             // 'subMenuTitle' => 'Menu 2 Item', // optional only when have submenutitle, if not exist will not have subMenuTitle
             'items' => [
                 [
-                    'label' => 'Menu 2 Sub 1',
-                    'url' => ['/menu21'], //  Array format of Url to, will be not used if have an items
+                    'label' => 'Route',
+                    'url' => ['/admin/route'], //  Array format of Url to, will be not used if have an items
                 ],
                 [
-                    'label' => 'Menu 2 Sub 2',
-                    'url' => ['/menu22'], //  Array format of Url to, will be not used if have an items
+                    'label' => 'Permission',
+                    'url' => ['/admin/permission'], //  Array format of Url to, will be not used if have an items
+                ],
+                [
+                    'label' => 'Menu',
+                    'url' => ['/admin/menu'], //  Array format of Url to, will be not used if have an items
+                ],
+                [
+                    'label' => 'Role',
+                    'url' => ['/admin/role'], //  Array format of Url to, will be not used if have an items
+                ],
+                [
+                    'label' => 'Assignment',
+                    'url' => ['/admin/assignment'], //  Array format of Url to, will be not used if have an items
+                ],
+                [
+                    'label' => 'User',
+                    'url' => ['/admin/user'], //  Array format of Url to, will be not used if have an items
                 ],
             ]
         ],
@@ -68,5 +81,5 @@ HTML
                 ],
             ]
         ],
-    ]
+    ]*/
 ]);

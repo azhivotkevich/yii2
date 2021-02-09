@@ -2,27 +2,29 @@ version: "3"
 
 services:
   webserver:
-    build:
-      context: ./bin/php74
-    container_name: 'yii2-php74'
-    restart: 'always'
-    ports:
-      - "81:80"
-      - "444:443"
-    links:
-      - database
+    build: ./docker/php
+    container_name: webserver
     volumes:
       - ./www:/var/www/html
-      - ./config/php/php.ini:/usr/local/etc/php/php.ini
-      - ./config/vhosts:/etc/apache2/sites-enabled
-      - ./logs/apache2:/var/log/apache2
+    depends_on:
+      - database
+  nginx:
+    image: nginx:1.17
+    container_name: nginx
+    ports:
+      - 81:80
+    volumes:
+      - ./www:/var/www/html
+      - ./docker/nginx/yii2.conf:/etc/nginx/conf.d/yii2.conf
+    depends_on:
+      - webserver
   database:
     build:
-      context: "./bin/mariadb"
-    container_name: 'yii2-database'
-    restart: 'always'
+      context: ./bin/mariadb
+    container_name: yii2-database
+    restart: always
     ports:
-      - "3307:3306"
+      - 3307:3306
     volumes:
       - ./data/mariadb:/var/lib/mariadb
       - ./logs/mariadb:/var/log/mariadb

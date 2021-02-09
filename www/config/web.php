@@ -15,6 +15,7 @@ $config = [
         '@npm' => '@vendor/npm-asset',
     ],
     'defaultRoute' => 'index/index',
+    'container' => require __DIR__ . '/container.php',
     'components' => [
         'language' => \app\components\web\Language::class,
         'i18n' => [
@@ -26,6 +27,9 @@ $config = [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'PI5Dg-kKJbgYfBQOGPWPdgW14QRAx0jI',
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ]
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -69,10 +73,11 @@ $config = [
     ],
     'params' => $params,
     'as access' => [
-        'class' => mdm\admin\components\AccessControl::class,
+        'class' => \mdm\admin\components\AccessControl::class,
         'allowActions' => [
             'site/*',
             'admin/*',
+            'api/*',
             'some-controller/some-action',
             // The actions listed here will be allowed to everyone including guests.
             // So, 'admin/*' should not appear here in the production, of course.
@@ -83,10 +88,15 @@ $config = [
     ],
     'modules' => [
         'admin' => [
-            'class' => mdm\admin\Module::class,
+            'class' => \mdm\admin\Module::class,
+        ],
+        'api' => [
+            'class' => \app\modules\api\ApiModule::class,
+            'allowedIPs' => ['*'],
         ]
     ]
 ];
+
 
 if (YII_ENV_DEV) {
     // configuration adjustments for 'dev' environment

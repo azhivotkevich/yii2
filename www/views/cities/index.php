@@ -12,46 +12,58 @@ use yii\grid\GridView;
 $this->title = Yii::t('app', 'Cities');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="city-index">
+<div class="city-index card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary"><?= Html::encode($this->title) ?></h6>
+    </div>
+    <div class="card-body">
+        <p>
+            <?= Html::a(Yii::t('app', 'Create City'), ['create'], ['class' => 'btn btn-success']) ?>
+        </p>
 
-    <h1><?= Html::encode($this->title) ?></h1>
+        <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Create City'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+        <?= GridView::widget([
+            'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
+            'options' => ['class' => 'table-responsive'],
+            'columns' => [
+                [
+                    'attribute' => 'id',
+                    'filterInputOptions' => [
+                        'class' => 'form-control form-control-sm'
+                    ]
+                ],
+                [
+                    'attribute' => 'name',
+                    'filterInputOptions' => [
+                            'class' => 'form-control form-control-sm'
+                    ]
+                ],
+                [
+                    'attribute' => 'countryId',
+                    'value' => 'country.name',
+                    'filter' => Html::activeDropDownList(
+                        $searchModel,
+                        'countryId',
+                        ArrayHelper::map(\app\models\Country::find()->all(), 'id', 'name'),
+                        ['class' => 'form-control form-control-sm', 'prompt' => '--']
+                    )
+                ],
+                [
+                    'attribute' => 'region_id',
+                    'value' => 'region.name',
+                    'filter' => Html::activeDropDownList(
+                        $searchModel,
+                        'region_id',
+                        ArrayHelper::map(Region::find()->filterWhere(['country_id' => $searchModel->countryId])->all(), 'id', 'name'),
+                        ['class' => 'form-control form-control-sm', 'prompt' => '--']
+                    )
+                ],
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            'id',
-            'name',
-            [
-                'attribute' => 'countryId',
-                'value' => 'country.name',
-                'filter' => Html::activeDropDownList(
-                    $searchModel,
-                    'countryId',
-                    ArrayHelper::map(\app\models\Country::find()->all(), 'id', 'name'),
-                    ['class' => 'form-control', 'prompt' => '--']
-                )
+                ['class' => 'yii\grid\ActionColumn'],
             ],
-            [
-                'attribute' => 'region_id',
-                'value' => 'region.name',
-                'filter' => Html::activeDropDownList(
-                    $searchModel,
-                    'region_id',
-                    ArrayHelper::map(Region::find()->filterWhere(['country_id' => $searchModel->countryId])->all(), 'id', 'name'),
-                    ['class' => 'form-control', 'prompt' => '--']
-                )
-            ],
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
-
+        ]); ?>
+    </div>
 
 </div>

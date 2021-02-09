@@ -29,10 +29,14 @@ $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@bower/startbootstra
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-        <?= $this->render(
-            'sidebar.php',
-            ['directoryAsset' => $directoryAsset]
-        ) ?>
+        <?php
+        if (!Yii::$app->user->isGuest) {
+            echo $this->render(
+                'sidebar.php',
+                ['directoryAsset' => $directoryAsset]
+            );
+        }
+        ?>
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">

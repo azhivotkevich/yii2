@@ -1,38 +1,24 @@
 <?php
 
-use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use app\models\forms\CityCreateForm;
+use app\models\forms\CountryCheckForm;
+use app\widgets\StepByStepForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\City */
+/* @var $cityModel CityCreateForm */
+/* @var $countryModel CountryCheckForm */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
 <div class="city-form">
-
-    <?php $form = ActiveForm::begin(); ?>
-    <?= $form->field($countryModel, 'countryId')->dropDownList(
-        \yii\helpers\ArrayHelper::map(\app\models\Country::find()->all(), 'id', 'name'),
-        ['prompt' => '--', 'onchange' => 'this.form.submit()']
-    ) ?>
-    <?php ActiveForm::end(); ?>
-
-    <?php if ($regions) : ?>
-        <?php $form = ActiveForm::begin(); ?>
-
-
-        <?= $form->field($model, 'region_id')->dropDownList(
-            $regions,
-            ['prompt' => '--']
-        ) ?>
-
-        <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-
-        <div class="form-group">
-            <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
-        </div>
-
-        <?php ActiveForm::end(); ?>
-    <?php endif; ?>
-
+    <?= StepByStepForm::widget([
+        'steps' => [
+            new CountryCheckForm(),
+            new CityCreateForm()
+        ],
+        'redirect' => function(CityCreateForm $model) {
+            return \yii\helpers\Url::to(['cities/view', 'id' => $model->id]);
+        }
+    ]);
+    ?>
 </div>
